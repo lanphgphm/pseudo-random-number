@@ -2,15 +2,11 @@ from cmath import sqrt
 import random 
 
 def fibonacci(n: int) -> int:  
-    try: 
-        if n == 0: 
-            return 0
-        elif n == 1: 
-            return 1
-        return fibonacci(n - 1) + fibonacci(n - 2)
-    except Exception as e: 
-        print(f"Error message: {e}")
-        return ()
+    if n == 0: 
+        return 0
+    elif n == 1: 
+        return 1
+    return fibonacci(n - 1) + fibonacci(n - 2)
 
 def kotta():
     a = 5  
@@ -19,8 +15,9 @@ def kotta():
     n = eval(input("enter size of the sequence (cannot be negative): ")) 
     f = [fibonacci(i) for i in range(n)]
     x = [0] * n
-    # choose x[0] const, kotta says use random.randint(range)
+    # choose x[0] as seed, kotta says use random.randint()
     # but we will ask user for seed value
+    # because it's kinda dumb to use random.randint() in a random number generator
     x[0] = eval(input("enter seed value (cannot be 0): "))
     for i in range(0, n - 1):
         x[i + 1] = (a * x[i] + c + int(f[i] / x[0])) % m 
