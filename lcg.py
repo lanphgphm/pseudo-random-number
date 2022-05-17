@@ -9,7 +9,7 @@ def linear_congruential():
     '''
     a = 5 
     c = 1 
-    m = 16
+    m = 2**32 # output range # consider taking user input for this
     n = eval(input("enter size of sequence: "))
     x = [0] * n
     x[0] = eval(input("enter seed value (cannot be 0): "))
@@ -17,3 +17,5 @@ def linear_congruential():
         x[i + 1] = (a * x[i] + c) % m 
     print(x)
     return x
+
+linear_congruential()

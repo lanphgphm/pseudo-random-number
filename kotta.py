@@ -2,23 +2,27 @@ from cmath import sqrt
 import random 
 
 def fibonacci(n: int) -> int:  
-    if n == 0: 
-        return 0
-    elif n == 1: 
-        return 1
-    return fibonacci(n - 1) + fibonacci(n - 2)
+    try: 
+        if n == 0: 
+            return 0
+        elif n == 1: 
+            return 1
+        return fibonacci(n - 1) + fibonacci(n - 2)
+    except Exception as e: 
+        print(f"Error message: {e}")
+        return ()
 
 def kotta():
     a = 5  
     c = 1
-    m = 16  
+    m = 2**32 
     n = eval(input("enter size of the sequence (cannot be negative): ")) 
     f = [fibonacci(i) for i in range(n)]
     x = [0] * n
     # choose x[0] const, kotta says use random.randint(range)
     # but we will ask user for seed value
     x[0] = eval(input("enter seed value (cannot be 0): "))
-    for i in range(1, n - 1):
+    for i in range(0, n - 1):
         x[i + 1] = (a * x[i] + c + int(f[i] / x[0])) % m 
     print(f"random sequence: {x}")
     # checking accuracy 
@@ -45,3 +49,5 @@ def kotta():
     if absZ < 1.96: 
         return True
     return False
+
+kotta()
