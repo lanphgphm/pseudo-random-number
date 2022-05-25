@@ -11,7 +11,7 @@ def fibonacci(n):
 def kotta():
     a = 5  
     c = 1
-    m = 16
+    m = 2**32
     n = eval(input("enter size of the sequence (cannot be negative): ")) 
     f = fibonacci(n)
     x = [0] * n

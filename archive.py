@@ -34,7 +34,7 @@ def kotta():
     '''
     a = 5  
     c = 1
-    m = 16
+    m = 2**32
     n = eval(input("enter size of the sequence (cannot be negative): ")) 
     f = fibonacci(n)
     x = [0] * n
@@ -112,7 +112,7 @@ def linear_congruential():
     ''' 
     a = 5 
     c = 1 
-    m = 16 
+    m = 2**32
     n = eval(input("enter size of sequence: "))
     x = [0] * n
     x[0] = eval(input("enter seed value (cannot be 0): "))
