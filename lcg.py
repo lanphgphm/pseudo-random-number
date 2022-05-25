@@ -9,13 +9,14 @@ def linear_congruential():
     '''
     a = 5 
     c = 1 
-    m = 2**32 # output range # consider taking user input for this
+    m = 16 
     n = eval(input("enter size of sequence: "))
     x = [0] * n
     x[0] = eval(input("enter seed value (cannot be 0): "))
-    for i in range(1, n - 1): 
+    for i in range(0, n - 1): 
         x[i + 1] = (a * x[i] + c) % m 
-    print(x)
+    print(f"LINEAR CONGRUENTIAL PRNG\nValue of m: {m}\nSeed value: {x[0]}")
+    print(f"Random number sequence: {x[1:]}")
     return x
 
 linear_congruential()

@@ -1,27 +1,26 @@
-from cmath import sqrt
-import random 
+from cmath import sqrt 
+from decimal import * 
 
-def fibonacci(n: int) -> int:  
-    if n == 0: 
-        return 0
-    elif n == 1: 
-        return 1
-    return fibonacci(n - 1) + fibonacci(n - 2)
+def fibonacci(n): 
+    fib = [0] * n 
+    fib[1] = 1 
+    for i in range(2, n): 
+        fib[i] = fib[i - 1] + fib[i - 2]
+    return fib
 
 def kotta():
     a = 5  
     c = 1
-    m = 2**32 
+    m = 16
     n = eval(input("enter size of the sequence (cannot be negative): ")) 
-    f = [fibonacci(i) for i in range(n)]
+    f = fibonacci(n)
     x = [0] * n
     # choose x[0] as seed, kotta says use random.randint()
     # but we will ask user for seed value
     # because it's kinda dumb to use random.randint() in a random number generator
     x[0] = eval(input("enter seed value (cannot be 0): "))
     for i in range(0, n - 1):
-        x[i + 1] = (a * x[i] + c + int(f[i] / x[0])) % m 
-    print(f"random sequence: {x}")
+        x[i + 1] = (a * x[i] + c + int(f[i] / x[0])) % m
     # checking accuracy 
     x1 = x.copy()
     x1.sort() 
@@ -33,7 +32,7 @@ def kotta():
     for i in x: 
         if i < median: 
             lu.append('l')
-        if i >= median: 
+        elif i >= median: 
             lu.append('u')
     R = 1 # because runs = differences + 1
     for i in range(1, len(lu)):
@@ -43,8 +42,12 @@ def kotta():
     var = ((n + 1) * ((n + 1) - 2)) / (4 * ((n + 1) - 1))
     Z = (R - mean) / (sqrt(var))
     absZ = abs(Z)
+    print(f"KOTTA PRNG\nValue of m: {m}\nSeed value: {x[0]}")
+    print(f"Random number sequence: {x[1:]}")
+    # print(f"Median: {median}\nLU sequence: {lu}\nNumber of runs: {R}, mean E(R) = {mean}, variance = {var}")
     if absZ < 1.96: 
         return True
-    return False
+    return False 
 
-kotta()
+n = kotta()
+# print(f"|Z| < 1.96? {n}")

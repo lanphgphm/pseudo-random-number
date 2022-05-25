@@ -1,5 +1,5 @@
 '''
-this program contains two functions: 
+this program contains 3 functions: 
     fibonacci(n):           generate fibonacci number at index n, helper to kotta()
     kotta():                the kotta algorithm in question 
     kotta_tester():         contains the necessary calculations to checks the 
@@ -8,24 +8,13 @@ this program contains two functions:
                             one of the most popular PRNGs used today 
 '''
 from cmath import sqrt
-import random 
 
-# step 3 
-def fibonacci(n: int) -> int:  
-    '''
-    returns fibonacci number at index (n - 1), start counting from 0
-
-    parameter: 
-        n: index of the fibonacci number 
-    
-    outputs: 
-        fibonacci number at index n 
-    '''
-    if n == 0: 
-        return 0
-    elif n == 1: 
-        return 1
-    return fibonacci(n - 1) + fibonacci(n - 2)
+def fibonacci(n): 
+    fib = [0] * n 
+    fib[1] = 1 
+    for i in range(2, n): 
+        fib[i] = fib[i - 1] + fib[i - 2]
+    return fib
 
 def kotta():
     '''
@@ -41,31 +30,22 @@ def kotta():
         a, c, m:    predefined numbers, constants in the given kotta formula
         n :         number of elements wanted in the output sequence 
         f :         fibonacci sequence with n elements 
-        x :         array storing the generated values / output sequence
-        x1 :        a copy of x, to sort & find median 
-        R :         number of runs in the LU sequence, capitalized to stay 
-                    consistent with the paper 
-        mean,var,Z: values used to check if the generated sequence satisfy the
-                    p-value
+        x :         output sequence
     '''
-    # step 1
     a = 5  
     c = 1
-    m = 16 # when done use m = 2 ** 32 or m = 2 ** 64 instead
-    # step 2 
+    m = 16
     n = eval(input("enter size of the sequence (cannot be negative): ")) 
-    # step 3 
-    f = [fibonacci(i) for i in range(n)]
-    # step 4
+    f = fibonacci(n)
     x = [0] * n
-    # choose x[0] const, kotta says use random.randint(range)
-    # but we will ask user for seed value
+    # choose x[0] as seed, kotta says use random.randint() but we will ask user 
+    # for seed value because it's kinda dumb to use random module 
+    # in a random number generator
     x[0] = eval(input("enter seed value (cannot be 0): "))
-    # step 5
-    for i in range(1, n - 1):
-        x[i + 1] = (a * x[i] + c + int(f[i] / x[0])) % m 
-    # step 6
-    print(f"random sequence: {x}")
+    for i in range(0, n - 1):
+        x[i + 1] = (a * x[i] + c + int(f[i] / x[0])) % m
+    print(f"KOTTA PRNG\nValue of m: {m}\nSeed value: {x[0]}")
+    print(f"Random number sequence: {x[1:]}")
     return x, n
 
 def kotta_tester(): 
@@ -87,33 +67,27 @@ def kotta_tester():
                     p-value
     '''
     x, n = kotta()
-    # step 7 
     x1 = x.copy()
     x1.sort() 
     if (n + 1) % 2 == 0: 
         median = (x1[int((n + 1)/2)] + x1[int(((n + 1)/2)) + 1]) / 2 
     elif (n + 1) % 2 == 1: 
         median = x1[int(((n + 1) + 1)/ 2)] 
-    # step 8 & 9
     lu = []
     for i in x: 
         if i < median: 
             lu.append('l')
         if i >= median: 
             lu.append('u')
-    # step 10
     R = 1 # because runs = differences + 1
-    # step 11 
     for i in range(1, len(lu)):
         if lu[i] != lu[i - 1]:
             R = R + 1
-    # step 12 
     mean = ((n + 1) + 2) / 2
     var = ((n + 1) * ((n + 1) - 2)) / (4 * ((n + 1) - 1))
     Z = (R - mean) / (sqrt(var))
-    # step 13 check if |Z| < 1.96
     absZ = abs(Z)
-    if abs < 1.96: 
+    if absZ < 1.96: 
         return True
     return False
 
@@ -136,14 +110,16 @@ def linear_congruential():
         mean,var,Z: values used to check if the generated sequence satisfy the
                     p-value
     ''' 
-    a = 5
+    a = 5 
     c = 1 
-    m = 16
+    m = 16 
     n = eval(input("enter size of sequence: "))
     x = [0] * n
     x[0] = eval(input("enter seed value (cannot be 0): "))
-    for i in range(1, n - 1): 
+    for i in range(0, n - 1): 
         x[i + 1] = (a * x[i] + c) % m 
-    print(x)
+    print(f"LINEAR CONGRUENTIAL PRNG\nValue of m: {m}\nSeed value: {x[0]}")
+    print(f"Random number sequence: {x[1:]}")
     return x
 
+kotta_tester()
